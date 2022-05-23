@@ -15,34 +15,34 @@ stages {
 
     stage("Compile") {
         steps {
-        sh 'mvn -Dmaven.test.failure.ignore=true install'
+        sh './mvnw -Dmaven.test.failure.ignore=true install'
     }
 }
     stage("Clean"){
         steps {
-        sh "mvn clean"
+        sh "./mvnw clean"
         }
     }
     stage("Unit test") {
     steps {
-    sh "mvn test"
+    sh "./mvnw test"
     }
 }
 stage("Code coverage") {
     steps {
-        sh "mvn test"
+        sh "./mvnw test"
         publishHTML (target: [
         reportDir: 'build/reports/jacoco/test/html',
         reportFiles: 'index.html',
         reportName: 'JacocoReport'
 ])
-sh "mvn test"
+sh "./mvnw test"
 }
 }
 stage('SonarQube analysis') {
 steps {
 withSonarQubeEnv('SonarQubePruebas') {
-sh 'mvn sonar:sonar'
+sh './mvnw sonar:sonar'
 }
 }
 }
