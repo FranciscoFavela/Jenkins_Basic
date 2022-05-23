@@ -21,29 +21,29 @@ stages {
 }
     stage("Clean"){
         steps {
-        sh "./mvnw clean"
+        sh "mvn clean"
         }
     }
     stage("Unit test") {
     steps {
-    sh "./mvnw test"
+    sh "mvn test"
     }
 }
 stage("Code coverage") {
     steps {
-        sh "./mvnw test"
+        sh "mvn test"
         publishHTML (target: [
         reportDir: 'build/reports/jacoco/test/html',
         reportFiles: 'index.html',
         reportName: 'JacocoReport'
 ])
-sh "./mvnw test"
+sh "mvn test"
 }
 }
 stage('SonarQube analysis') {
 steps {
 withSonarQubeEnv('SonarQubePruebas') {
-sh './mvnw sonar:sonar'
+sh 'mvn sonar:sonar'
 }
 }
 }
