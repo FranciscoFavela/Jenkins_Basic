@@ -40,7 +40,7 @@ stage("Code coverage") {
         reportFiles: 'index.html',
         reportName: 'JacocoReport'
 ])
-sh "./gradlew jacocoTestCoverageVerification"
+sh "mvn test"
 }
 }
 stage('SonarQube analysis') {
