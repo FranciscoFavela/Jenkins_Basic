@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsersServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">basic</a> &gt; <a href="index.source.html" class="el_package">com.example.basic.Services</a> &gt; <span class="el_source">UsersServiceImpl.java</span></div><h1>UsersServiceImpl.java</h1><pre class="source lang-java linenums">package com.example.basic.Services;
+
+import com.example.basic.Dtos.BaseMapperDTO;
+import com.example.basic.Dtos.UserDTO;
+import com.example.basic.Entities.Users;
+import com.example.basic.Repositories.BaseRepository;
+import com.example.basic.Repositories.UsersRepository;
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+@Service
+public class UsersServiceImpl extends BaseServiceImpl&lt;Users, Long&gt; implements UsersService {
+    @Autowired
+    private UsersRepository usersRepository;
+<span class="fc" id="L24">    static BaseMapperDTO baseMapperDTO = BaseMapperDTO.singleInstance();</span>
+    public UsersServiceImpl(BaseRepository&lt;Users, Long&gt; baseRepository) {
+<span class="nc" id="L26">        super(baseRepository);</span>
+<span class="nc" id="L27">    }</span>
+<span class="fc" id="L28">    private static final Logger LOGGER = LoggerFactory.getLogger(BaseServiceImpl.class);</span>
+
+
+    @Override
+    @Async(&quot;taskExecutor&quot;)
+    @Transactional
+    public CompletableFuture&lt;List&lt;UserDTO&gt;&gt; getAllDTO() {
+<span class="nc" id="L35">        System.out.println(&quot;Current Thread&quot; + Thread.currentThread().getName());</span>
+<span class="nc" id="L36">        LOGGER.info(&quot;Request to Get ALL Dto&quot;);</span>
+<span class="nc" id="L37">        System.out.println(Thread.currentThread().getName());</span>
+<span class="nc" id="L38">        List&lt;Users&gt; entities =usersRepository.findAll();</span>
+<span class="nc" id="L39">        List&lt;UserDTO&gt; dtos = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">            for(Users users: entities){</span>
+            UserDTO userDTO;
+<span class="nc" id="L42">            userDTO = baseMapperDTO.mapToAppoimentDto(users);</span>
+<span class="nc" id="L43">            dtos.add(userDTO);</span>
+<span class="nc" id="L44">        }</span>
+<span class="nc" id="L45">        return CompletableFuture.completedFuture(dtos);</span>
+    }
+    @Async(&quot;taskExecutor&quot;)
+    @Transactional
+    @Override
+    public CompletableFuture&lt;UserDTO&gt; getOneDTO(Long id) {
+<span class="nc" id="L51">        System.out.println(&quot;Current Thread&quot; + Thread.currentThread().getName());</span>
+<span class="nc" id="L52">        LOGGER.info(&quot;Request to Get OneDto&quot;);</span>
+<span class="nc" id="L53">        ModelMapper modelMapper = new ModelMapper();</span>
+<span class="nc" id="L54">        UserDTO userDTO = modelMapper.map(usersRepository.findById(id),UserDTO.class);</span>
+<span class="nc" id="L55">        return CompletableFuture.completedFuture(userDTO);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
