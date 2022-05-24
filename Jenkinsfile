@@ -31,7 +31,7 @@ stages {
 }
 stage("Code coverage") {
     steps {
-        sh "mvn sonar:sonar"
+        sh "mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9001"
         publishHTML (target: [
         reportDir: 'build/reports/jacoco/test/html',
         reportFiles: 'index.html',
