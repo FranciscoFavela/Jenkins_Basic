@@ -3,8 +3,6 @@ package com.example.basic.Controllers;
 import com.example.basic.Entities.Base;
 import com.example.basic.Services.BaseServiceImpl;
 
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,13 +27,13 @@ public abstract class BaseControllerImpl<E extends Base, S extends BaseServiceIm
     public CompletableFuture<ResponseEntity> getOneAsync(@PathVariable Long id) throws Exception {
         return servicio.findByIdAsync(id).thenApply(ResponseEntity::ok);
     }
-    
+
   //  @CircuitBreaker(name = "saveCB", fallbackMethod = "fallbacksaveCB")
     @PostMapping("")
     public CompletableFuture<ResponseEntity> save(@RequestBody E entity) throws Exception {
         return servicio.save(entity).thenApply(ResponseEntity::ok);
     }
-    
+
   //  @CircuitBreaker(name = "updateCB", fallbackMethod = "fallbackupdateCB")
     @PutMapping("/{id}")
     public CompletableFuture<ResponseEntity> update(@PathVariable Long id, @RequestBody E entity) throws Exception {
@@ -48,24 +46,9 @@ public abstract class BaseControllerImpl<E extends Base, S extends BaseServiceIm
             return servicio.delete(id).thenApply(ResponseEntity::ok);
 
     }
-    
+
     private ResponseEntity fallbackgetAllCB(RuntimeException e) {
         return new ResponseEntity("getAll no disponible", HttpStatus.OK);
     }
-    /*
-    private ResponseEntity fallbackgetOneCB(@PathVariable Long id, RuntimeException e) {
-        return new ResponseEntity("getOne no disponible", HttpStatus.OK);
-    }
-    
-    private ResponseEntity fallbacksaveCB(@RequestBody E entity, RuntimeException e) {
-        return new ResponseEntity("save no disponible", HttpStatus.OK);
-    }
-    
-    private ResponseEntity fallbackupdateCB(@PathVariable Long id, RuntimeException e) {
-        return new ResponseEntity("update no disponible", HttpStatus.OK);
-    }
-    
-    private ResponseEntity fallbackdeleteCB(@PathVariable Long id, RuntimeException e) {
-        return new ResponseEntity("delete no disponible", HttpStatus.OK);
-    }*/
+
 }
