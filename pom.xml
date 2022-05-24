@@ -301,7 +301,7 @@ parent from repository -->
 			<properties>
 				<!-- Optional URL to server. Default value is http://localhost:9000 -->
 				<sonar.host.url>
-					http://localhost:9001
+					http://172.18.0.3:9001
 				</sonar.host.url>
 				<jacoco.version>0.8.3</jacoco.version>
 				<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
