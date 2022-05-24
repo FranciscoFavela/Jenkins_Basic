@@ -16,7 +16,7 @@ stages {
 
     stage("Compile") {
         steps {
-        sh 'mvn -Dmaven.test.failure.ignore=true install'
+        sh 'mvn verify'
     }
 }
     stage("Clean"){
