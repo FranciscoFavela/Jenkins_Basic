@@ -31,7 +31,7 @@ stages {
 }
 stage("Code coverage") {
     steps {
-        sh "mvn test"
+        sh "mvn sonar:sonar"
         publishHTML (target: [
         reportDir: 'build/reports/jacoco/test/html',
         reportFiles: 'index.html',
