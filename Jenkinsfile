@@ -31,7 +31,7 @@ stages {
 }
 stage("Code coverage") {
     steps {
-        sh "mvn sonar:sonar -D sonar.host.url=http://localhost:9001 -D sonar.login=admin -D sonar.password=12345"
+        sh "mvn sonar:sonar -D sonar.host.url=http://localhost:9000 -D sonar.login=admin -D sonar.password=12345"
         publishHTML (target: [
         reportDir: 'build/reports/jacoco/test/html',
         reportFiles: 'index.html',
