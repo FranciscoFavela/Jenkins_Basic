@@ -42,7 +42,7 @@ sh "mvn test"
 }
 stage('SonarQube analysis') {
 steps {
-withSonarQubeEnv('SonarQubePruebas') {
+withSonarQubeEnv('SonarQube') {
 sh 'mvn sonar:sonar'
 }
 }
