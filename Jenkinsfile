@@ -63,6 +63,6 @@ stage('SonarQube analysis') {
           // If the Dockerhub authentication stopped, do it again
           sh 'docker login'
           sh "docker push ${REGISTRY}:${BUILD_NUMBER}"
-        } 
+        } }
 }
 }
