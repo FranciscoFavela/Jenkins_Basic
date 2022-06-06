@@ -64,8 +64,7 @@ class BasicApplicationTests {
 	
 	@MockBean
 	private UsersServiceImpl usrSrv;
-	@MockBean
-   	private ProfileServiceImpl prfSrv;
+	
 	@BeforeAll
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
@@ -75,8 +74,6 @@ class BasicApplicationTests {
 	Users user_1 = new Users("user1",1234,"user1",new Profile("profile1"),1,"active","01-01-2022","01-01-2022","true");
 	Users user_2 = new Users("user2",1234,"user2",new Profile("profile2"),1,"active","01-01-2022","01-01-2022","true");
 	Users user_3 = new Users("user3",1234,"user3",new Profile("profile3"),1,"active","01-01-2022","01-01-2022","true");
-	Profile profile_1 = new Profile("dadsa");
-    	Profile profile_2 = new Profile("dweax");
 	/*
 	CompletableFuture<List<Users>> record = new ArrayList<>(Arrays.asList(user_1,user_2,user_3));
 	@Test
@@ -98,33 +95,7 @@ class BasicApplicationTests {
 				.andExpect(MockMvcResultMatchers.jsonPath("$[2].username", is(user_1.getUsername())));
 	}
 	 */
-     @Test
-    public void getProfileTest() throws Exception {
-        //given
-        given(prfSrv.findByIdAsync(Mockito.anyLong()))
-                .willReturn(
-                        CompletableFuture.<Optional<Profile>>completedFuture(Optional.ofNullable(profile_1))
-                );
-        //when
-
-        ObjectMapper mapr = new ObjectMapper();
-
-        String body = mapr.writeValueAsString(profile_1);
-
-        String expected = "";
-        MvcResult response =
-                this.mockMvc.perform(get("http://localhost:8090/api/v1/profiles/1").accept(MediaType.APPLICATION_JSON) )
-                        .andExpect(request().asyncStarted())
-                        .andExpect(status().is2xxSuccessful())
-                        .andReturn();
-
-        this.mockMvc.perform(asyncDispatch(response))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(body))
-        ;
-    }	
+	
     @Test
     public void allUserTest() throws Exception {
 
@@ -235,5 +206,3 @@ class BasicApplicationTests {
         }
 
 }
-
-
